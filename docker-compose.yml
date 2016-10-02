@@ -1,0 +1,15 @@
+queue:
+  build: .
+  links:
+    - "queue_redis:queue_redis"
+  environment:
+    - REDIS_ADDR=queue_redis:6379
+    - REDIS_DB=0
+  ports:
+    - 8090:8090
+
+queue_redis:
+  image: redis:alpine
+  container_name: queue_redis
+  ports:
+    - 6379:6379

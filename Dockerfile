@@ -1,6 +1,6 @@
 FROM scratch
 
-ADD /bin/main /
+ADD main /
 
 EXPOSE 8090
 CMD ["/main"]

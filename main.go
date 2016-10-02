@@ -9,7 +9,7 @@ import (
 func handler(w http.ResponseWriter, r *http.Request) {
     store := server.NewStore()
 
-    err := store.Put([]byte("Some data"))
+    store.Put([]byte("Some data"))
 
     data, err := store.Next()
 

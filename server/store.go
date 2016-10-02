@@ -50,7 +50,7 @@ func (s *Store) Put(data []byte) error {
 // Get some data from the store
 func (s *Store) Next() (out string, err error) {
 
-    data, err := client.BLPop(1*time.Second, "waiting").Result()
+    data, err := client.BRPopLPush("waiting", "processing", 1*time.Second).Result()
 
     if err != nil {
         return

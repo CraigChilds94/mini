@@ -1,4 +1,4 @@
-package server
+package main
 
 import (
     os "os"
@@ -56,11 +56,11 @@ func (s *Store) Next() (out string, err error) {
         return
     }
 
-    if data[1] == "" {
+    if data == "" {
         return
     }
 
-    msgpack.Unmarshal([]byte(data[1]), &out)
+    msgpack.Unmarshal([]byte(data), &out)
 
     return
 }

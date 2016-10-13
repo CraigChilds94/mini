@@ -1,12 +1,22 @@
+nginx-proxy:
+  image: jwilder/nginx-proxy
+  container_name: queue_proxy
+  ports:
+    - 80:80
+    - 443:443
+  volumes:
+    - /var/run/docker.sock:/tmp/docker.sock:ro
+    - ./nginx/ssl:/etc/nginx/certs
+
 queue:
   build: .
   links:
     - "queue_redis:queue_redis"
   environment:
+    - VIRTUAL_HOST=mini.io
     - REDIS_ADDR=queue_redis:6379
     - REDIS_DB=0
-  ports:
-    - 8090:8090
+    - HOST=:80
 
 queue_redis:
   image: redis:alpine

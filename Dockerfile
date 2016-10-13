@@ -2,5 +2,5 @@ FROM scratch
 
 ADD main /
 
-EXPOSE 8090
+EXPOSE 80
 CMD ["/main"]

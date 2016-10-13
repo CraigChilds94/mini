@@ -1,10 +1,12 @@
 package main
 
+import os "os"
+
 // Start running the server which
 // handles the queue
 func main() {
     http := new(Http)
     http.Start(Mini{
-        Host: "localhost:8101",
+        Host: os.Getenv("HOST"),
     })
 }

@@ -8,7 +8,7 @@ func main() {
     http := new(Http)
     store := NewStore()
 
-    store.Put([]byte("This is a test message"))
+    store.Put("another-queue", []byte("This is a test message"))
 
     http.Start(Mini{
         Host:  os.Getenv("HOST"),

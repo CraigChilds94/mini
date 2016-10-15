@@ -37,20 +37,20 @@ func NewStore() *Store {
 }
 
 // Put some data into the store
-func (s *Store) Put(data []byte) error {
+func (s *Store) Put(queue string, data []byte) error {
     encoded, err := msgpack.Marshal(data)
 
     if err != nil {
         return err
     }
 
-    return client.RPush("waiting", encoded).Err()
+    return client.RPush(queue+":waiting", encoded).Err()
 }
 
 // Get some data from the store
-func (s *Store) Next() (out string, err error) {
+func (s *Store) Next(queue string) (out string, err error) {
 
-    data, err := client.BRPopLPush("waiting", "processing", 1*time.Second).Result()
+    data, err := client.BRPopLPush(queue+":waiting", queue+":processing", 1*time.Second).Result()
 
     if err != nil {
         return

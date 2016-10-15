@@ -26,12 +26,13 @@ func (m *Mini) HandlePop(c *gin.Context) {
         })
     }
 
-    data, err := m.Store.Next()
+    data, err := m.Store.Next(queue)
 
     if err != nil {
         c.JSON(http.StatusNotFound, gin.H{
             "error": "Unable to retrieve item from the queue",
         })
+        return
     }
 
     c.JSON(http.StatusOK, gin.H{
@@ -46,8 +47,17 @@ func (m *Mini) HandlePush(c *gin.Context) {
     data := c.PostForm("message")
     queue := c.Param("queue")
 
+    err := m.Store.Put(queue, []byte(data))
+
+    if err != nil {
+        c.JSON(http.StatusNotFound, gin.H{
+            "error": "Unable to put item onto the queue",
+        })
+        return
+    }
+
     c.JSON(http.StatusOK, gin.H{
-        "queue": queue,
-        "data":  data,
+        "queue":  queue,
+        "pushed": true,
     })
 }

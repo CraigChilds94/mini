@@ -4,7 +4,7 @@ build:
 docker-build: build
 	docker-compose up --build
 
-docker-up: build
+docker-up:
 	docker-compose up
 
 docker-rm:

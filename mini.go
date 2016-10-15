@@ -17,15 +17,21 @@ type Mini mini
 // Handle the request to pop a new item
 // from a specific queue
 func (m *Mini) HandlePop(c *gin.Context) {
+    queue := c.Param("queue")
+
     c.JSON(http.StatusOK, gin.H{
-        "data":"test",
+        "queue": queue,
     })
 }
 
 // Handle the request to push a new item
 // onto a specific queue
 func (m *Mini) HandlePush(c *gin.Context) {
+    data := c.PostForm("message")
+    queue := c.Param("queue")
+
     c.JSON(http.StatusOK, gin.H{
-        "data":"test",
+        "queue": queue,
+        "data":  data,
     })
 }

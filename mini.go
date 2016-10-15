@@ -9,7 +9,8 @@ type MiniInterface interface {
 }
 
 type mini struct {
-    Host string
+    Host  string
+    Store *Store
 }
 
 type Mini mini
@@ -19,8 +20,23 @@ type Mini mini
 func (m *Mini) HandlePop(c *gin.Context) {
     queue := c.Param("queue")
 
+    if queue == "" {
+        c.JSON(http.StatusNotFound, gin.H{
+            "error": "Queue with name not found",
+        })
+    }
+
+    data, err := m.Store.Next()
+
+    if err != nil {
+        c.JSON(http.StatusNotFound, gin.H{
+            "error": "Unable to retrieve item from the queue",
+        })
+    }
+
     c.JSON(http.StatusOK, gin.H{
         "queue": queue,
+        "data":  data,
     })
 }
 
